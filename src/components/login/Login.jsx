@@ -13,6 +13,7 @@ export default function Login() {
     if (validateLogin()) {
       const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
 
+      // Тіркелген қолданушыны табу
       const matchedUser = storedUsers.find(
         (user) => user.email === email && user.password === password
       );

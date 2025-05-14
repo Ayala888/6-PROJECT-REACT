@@ -1,64 +1,34 @@
-import { useEffect, useState } from "react";
+import { useUser } from './useUser';
 
 export default function ReviewSection({ doramaId }) {
-  const [reviews, setReviews] = useState([]);
-  const [text, setText] = useState("");
-  const [error, setError] = useState("");
-  const [editingId, setEditingId] = useState(null);
-  const [editingText, setEditingText] = useState("");
-
-  const storageKey = `reviews-${doramaId}`;
-
-  useEffect(() => {
-    const storedReviews = localStorage.getItem(storageKey);
-    if (storedReviews) {
-      setReviews(JSON.parse(storedReviews));
-    }
-  }, [doramaId]);
-
-  useEffect(() => {
-    if (reviews.length > 0) {
-      localStorage.setItem(storageKey, JSON.stringify(reviews));
-    }
-  }, [reviews, storageKey]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!text.trim()) {
-      setError("Пікір жазыңыз");
-      return;
-    }
-    setError("");
-    const newReview = { id: Date.now(), text };
-    setReviews((prevReviews) => [...prevReviews, newReview]);
-    setText("");
-  };
-
-  const handleSaveEdit = (id) => {
-    if (editingText.trim()) {
-      setReviews((prevReviews) =>
-        prevReviews.map((review) =>
-          review.id === id ? { ...review, text: editingText } : review
-        )
-      );
-      setEditingId(null);
-      setEditingText("");
-    }
-  };
-
-  const handleDelete = (id) => {
-    setReviews((prevReviews) => prevReviews.filter((review) => review.id !== id));
-  };
+  const {
+    reviews,
+    text,
+    setText,
+    error,
+    setError,
+    editingId,
+    setEditingId,
+    editingText,
+    setEditingText,
+    handleSubmit,
+    handleSaveEdit,
+    handleDelete,
+  } = useUser(doramaId); 
 
   return (
     <section className="space-y-4 max-w-2xl mx-auto">
       <h3 className="text-xl font-semibold text-pink-500 text-center">Пікірлер</h3>
 
+      {/* Пікір жазу формасы */}
       <form onSubmit={handleSubmit} className="space-y-2 flex flex-col items-center">
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="w-170 border border-gray-300 p-2 rounded"
+          className="w-full border border-gray-300 p-2 rounded resize-none min-h-[80px] text-sm md:text-base 
+          focus:outline-none focus:ring-2 focus:ring-pink-400
+          placeholder-gray-400 dark:placeholder-gray-300
+          bg-white dark:bg-gray-900 text-black dark:text-white"
           placeholder="Пікіріңіз..."
         />
         {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -80,6 +50,7 @@ export default function ReviewSection({ doramaId }) {
               key={r.id}
               className="border p-2 rounded flex flex-col gap-2 sm:flex-row sm:justify-between"
             >
+              {/* Өңдеу режимі */}
               {editingId === r.id ? (
                 <div className="w-full space-y-2 max-w-md">
                   <input
@@ -107,6 +78,7 @@ export default function ReviewSection({ doramaId }) {
                 </div>
               ) : (
                 <>
+                  {/* Пікірдің мәтіні және әрекеттер */}
                   <p className="max-w-md">{r.text}</p>
                   <div className="flex gap-2 text-sm">
                     <button
@@ -134,6 +106,7 @@ export default function ReviewSection({ doramaId }) {
     </section>
   );
 }
+
 
 
 

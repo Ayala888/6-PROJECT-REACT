@@ -13,6 +13,7 @@ export function useLogReg() {
     }
 
     const emailValid = email.includes('@gmail.com');
+
     const passwordValid =
       /[0-9]/.test(password) &&
       /[a-z]/.test(password) &&
@@ -36,7 +37,7 @@ export function useLogReg() {
     return true;
   };
 
-  
+  // Кіру формасын тексеру функциясы
   const validateLogin = () => {
     if (!email || !password) {
       setError('Барлық өрістерді толтырыңыз.');
