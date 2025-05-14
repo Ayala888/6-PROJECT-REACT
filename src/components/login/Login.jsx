@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
-import { useLogReg } from '../Register/useLogReg';
+import { useLogReg } from '../registration/useLogReg';
 
 export default function Login() {
   const { login } = useAuth();
