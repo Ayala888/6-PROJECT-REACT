@@ -74,7 +74,7 @@ export default function Register() {
         {error && !email && <p className={errorTextClass}>Email енгізіңіз</p>}
 
         <input
-          type="password"
+          type="text"
           placeholder="Password: ******"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
